@@ -1,0 +1,22 @@
+#Ignore folders
+.config/Code - OSS
+.cache
+.local
+.mozilla
+.nv
+.pki
+.todo
+.vscode-oss
+AUR
+Downloads
+wallpapers
+
+
+#Ignore files
+.asoundrc.asoundconf
+.bash_history
+.bash_logout
+.histfile
+.Xauthority
+.Xresources
+.zcompdump
