@@ -20,3 +20,11 @@ wallpapers
 .Xauthority
 .Xresources
 .zcompdump
+.config/pulse/b06a7966aa4a43048df06506481eb98c-card-database.tdb
+.config/pulse/b06a7966aa4a43048df06506481eb98c-default-sink
+.config/pulse/b06a7966aa4a43048df06506481eb98c-default-source
+.config/pulse/b06a7966aa4a43048df06506481eb98c-device-volumes.tdb
+.config/pulse/b06a7966aa4a43048df06506481eb98c-stream-volumes.tdb
+.config/dconf/user
+.config/pulse/cookie
+.config/dconf/user
