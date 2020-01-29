@@ -1,5 +1,7 @@
 #Ignore folders
 .config/Code - OSS
+.config/dconf
+.config/systemd
 .cache
 .local
 .mozilla
@@ -7,6 +9,8 @@
 .pki
 .todo
 .vscode-oss
+.cargo
+cache_directory
 AUR
 Downloads
 wallpapers
@@ -20,6 +24,8 @@ wallpapers
 .Xauthority
 .Xresources
 .zcompdump
+.fehbg
+.viminfo
 .config/pulse/b06a7966aa4a43048df06506481eb98c-card-database.tdb
 .config/pulse/b06a7966aa4a43048df06506481eb98c-default-sink
 .config/pulse/b06a7966aa4a43048df06506481eb98c-default-source
@@ -28,3 +34,9 @@ wallpapers
 .config/dconf/user
 .config/pulse/cookie
 .config/dconf/user
+Scripts/spotpass.sh
+.config/spotify-tui/.spotify_token_cache.json
+.config/spotify-tui/client.yml
+
+#Ignore extsensions
+*.stats
