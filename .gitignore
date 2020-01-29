@@ -33,7 +33,6 @@ wallpapers
 .config/pulse/b06a7966aa4a43048df06506481eb98c-stream-volumes.tdb
 .config/dconf/user
 .config/pulse/cookie
-.config/dconf/user
 Scripts/spotpass.sh
 .config/spotify-tui/.spotify_token_cache.json
 .config/spotify-tui/client.yml
