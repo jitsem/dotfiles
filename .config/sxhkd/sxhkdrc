@@ -8,11 +8,15 @@ super + Return
 
 # program launcher
 super + @space
-	dmenu_run
+	rofi -show drun -i -width 1000
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+# show shortcut cheatsheet
+super + F1
+	~/.config/sxhkd/shortcuts.sh | rofi -dmenu
 
 #
 # bspwm hotkeys
