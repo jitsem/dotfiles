@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "get-workspaces" ]; then
+    # Function to get workspace information
+    spaces () {
+      # Define custom labels for specific workspaces
+      declare -A custom_labels=( ["1"]="" ["2"]="" ["3"]="" ["4"]="" ["5"]="" )
+      # Get all workspace names
+      workspace_names=( $(bspc query -D --names) )
+
+      # Initialize an empty array for the final output
+      workspace_output=()
+
+      # Loop through each workspace name
+      for ws in "${workspace_names[@]}"; do
+        # Check if the workspace has a custom label
+        label=${custom_labels[$ws]:-"●"}
+
+        # Add the workspace info (id and label) to the output array
+        workspace_output+=("{\"id\":\"$ws\",\"text\":\"$label\"}")
+      done
+
+      # Convert the array to a JSON array and output it
+      printf "[%s]\n" "$(IFS=,; echo "${workspace_output[*]}")"
+    }
+
+
+    # Execute the function and then listen for updates
+    spaces
+    bspc subscribe report | while read -r line;
+      do spaces; done
+
+elif [ "$1" = "get-active" ]; then
+    # Get the ID of the currently active workspace
+    bspc query -D -d focused --names
+    # Listen for changes in workspace or monitor focus
+    bspc subscribe report | while read -r line;
+      do bspc query -D -d focused --names; done
+
+elif [ "$1" = "set-active" ]; then
+    # Change the active workspace to the one specified
+    bspc desktop -f "$2"
+
+elif [ "$1" = "change-active" ]; then
+    # Function to ensure the workspace ID stays within a valid range
+    clamp () {
+      local total=$(bspc query -D | wc -l)
+      if [ "$1" -lt 1 ]; then
+        echo 1
+      elif [ "$1" -gt "$total" ]; then
+        echo "$total"
+      else
+        echo "$1"
+      fi
+    }
+
+    current=$(bspc query -D --names | grep -n "$(bspc query -D -d focused --names)" | cut -d: -f1)
+    if [ "$2" = "down" ]; then
+      bspc desktop -f $(clamp $(($current+1)))
+    elif [ "$2" = "up" ]; then
+      bspc desktop -f $(clamp $(($current-1)))
+    fi
+fi

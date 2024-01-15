@@ -1,0 +1,67 @@
+* {
+  all: unset;
+}
+
+@import 'colors';
+
+.bar {
+  background-color: $bg0;
+  color: $fg;
+  border-radius: 14px;
+  font-size: 16px;
+}
+
+.bar-workspaces {
+  background-color: $bg1;
+  border-radius: 14px;
+  padding: 0.5em 0.25em;
+  font-size: 21px;
+  margin: 0 0.4em;
+}
+.bar-workspace { margin-right: 0.3em; margin-bottom: 0.8em; font-size: 16px;  }
+.bar-workspace.current { color: $accent; }
+
+.bar-host, .bar-system, .bar-power {
+  background-color: $bg1;
+  border-radius: 14px;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+.bar-host circular-progress, .bar-system circular-progress, .bar-power circular-progress { margin: 0.25em 0 0.25em 0; background-color: $bg0 }
+.bar-volume label { font-size: 12px; margin: 0.5em 0.5em 0.5em 1em; }
+.bar-brightness label { font-size: 12px; margin: 0.5em 0.5em 0.5em 0.82em; }
+.bar-system circular-progress label { font-size: 10px; margin: 0.5em 0.5em 0.5em 1em; }
+
+.bar-slider trough { background-color: $bg0; border-radius: 14px; padding: 0 0.15em; }
+.bar-slider trough highlight { background-color: $fg; border-radius: 14px; padding: 0 0.2em; }
+
+.bar-cpu { color: $bar-cpu; }
+.bar-memory { color: $bar-memory; }
+.bar-battery { color: $bar-battery; }
+.bar-battery.discharging { color: $bar-battery-discharging; }
+
+.bar-info-percent { font-size: 12px; }
+
+.bar-date {
+  border-radius: 14px;
+  padding: 0.5em 0 0.5em 0;
+  margin: 0em;
+  font-size: 12px;
+}
+.bar-power {
+  font-size: 15px;
+}
+
+.bar-power-item {
+  margin: 0.5em 0em;
+  font-size: 15px;
+}
+
+.bar-power-item :hover{
+  font-weight:bold;
+
+}
+
+.bar-start, .bar-end {
+  margin: 1em 0 1em 0;
+}

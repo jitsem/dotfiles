@@ -1,0 +1,128 @@
+;; # Bar
+
+;; ## Start
+
+(deflisten workspaces :initial "[]" "~/.config/eww/scripts/workspaces get-workspaces")
+(deflisten current_workspace :initial "1" "~/.config/eww/scripts/workspaces get-active")
+(defwidget bar_workspaces []
+  (eventbox :onscroll "~/.config/eww/scripts/workspaces change-active {} ${current_workspace}"
+    (box :class "bar-workspaces" :space-evenly true :orientation "v"
+      (label :text "${workspaces}${current_workspace}" :visible false)
+      (for workspace in workspaces
+        (eventbox :onclick "~/.config/eww/scripts/workspaces set-active ${workspace.id}"
+          (box :class "bar-workspace ${workspace.id == current_workspace ? "current" : ""}"
+            (label :text "${workspace.text}")))))))
+
+(defwidget bar_start []
+  (box :class "bar-start" :orientation "v" :space-evenly false :valign "start"
+    (bar_workspaces)))
+
+;; ## End
+
+(defpoll volume :interval "2s" "pulsemixer --get-volume | awk '{print $1}'")
+(defpoll volume_status :interval "2s" "pulsemixer --get-mute")
+(defvar bar_volume_rev false)
+(defwidget bar_host []
+  (box :class "bar-host" :orientation "v" :space-evenly false :valign "start"
+    (eventbox :onhover "${EWW_CMD} update bar_volume_rev=true"
+      :onhoverlost "${EWW_CMD} update bar_volume_rev=false"
+      (box :orientation "v" :valign "start" :space-evenly false
+        (circular-progress :value volume :class "bar-host-info bar-volume"
+          :thickness 4 :clockwise true
+          (label :text "${volume_status == "0" ? "󰕾 " : "󰖁 " }" :limit-width 2
+          :show_truncated false :wrap false))
+        (revealer :reveal bar_volume_rev
+          :transition "slidedown" :duration "275ms"
+          (box :orientation "v" :valign "start" :space-evenly false
+            (label :class "bar-info-percent" :text "${volume}%")
+            (scale :class "bar-slider" :orientation "v" :flipped true
+              :value volume :max 100 :min 0 :height "50"
+            :onchange "pulsemixer --set-volume {}")))))))
+(defpoll memory :interval "5s" "printf '%.0f\\n' $(free -m | grep Mem | awk '{print ($3/$2)*100}')")
+(defpoll cpu :interval "5s" "awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print int(($2+$4-u1) * 100 / (t-t1) + 0.5); }' <(grep 'cpu ' /proc/stat) <(sleep 1;grep 'cpu ' /proc/stat)")
+(defvar bar_cpu_rev false)
+(defvar bar_memory_rev false)
+(defwidget bar_system []
+  (box :class "bar-system" :orientation "v" :space-evenly false :valign "start"
+    (eventbox :onhover "${EWW_CMD} update bar_cpu_rev=true"
+      :onhoverlost "${EWW_CMD} update bar_cpu_rev=false"
+      (box :orientation "v" :valign "start" :space-evenly false
+        (circular-progress :value cpu :class "bar-system-info bar-cpu"
+          :thickness 4 :clockwise true
+          (label :text " " :limit-width 2
+          :show_truncated false :wrap false))
+        (revealer :reveal bar_cpu_rev
+          :transition "slidedown" :duration "275ms"
+          (label :class "bar-info-percent" :text "${cpu}%"))))
+    (eventbox :onhover "${EWW_CMD} update bar_memory_rev=true"
+      :onhoverlost "${EWW_CMD} update bar_memory_rev=false"
+      (box :orientation "v" :valign "start" :space-evenly false
+        (circular-progress :value memory :class "bar-system-info bar-memory"
+          :thickness 4 :clockwise true
+          (label :text " " :limit-width 2
+          :show_truncated false :wrap false))
+        (revealer :reveal bar_memory_rev
+          :transition "slidedown" :duration "275ms"
+          (label :class "bar-info-percent" :text "${memory}%"))))))
+
+(defpoll hour  :interval "1s" "date '+%H'")
+(defpoll min   :interval "1s" "date '+%M'")
+(defpoll day   :interval "1h" "date '+%d'")
+(defpoll month :interval "20h" "date '+%b'")
+(defvar bar_time_rev false)
+(defwidget bar_time []
+  (eventbox :onhover "${EWW_CMD} update bar_time_rev=true"
+    :onhoverlost "${EWW_CMD} update bar_time_rev=false"
+    (box :class "bar-time" :orientation "v" :valign "end" :space-evenly false
+      (label :text hour)
+      (label :text min)
+      (revealer :reveal bar_time_rev
+        :transition "slidedown" :duration "275ms"
+        (box :orientation "v" :valign "start" :space-evenly false
+          (box :class "bar-date" :orientation "v" :valign "start"
+            (label :text month)
+            (label :text day)))))))
+
+(defvar bar_power_rev false)
+(defwidget bar_power []
+  (eventbox :onhover "${EWW_CMD} update bar_power_rev=true"
+    :onhoverlost "${EWW_CMD} update bar_power_rev=false"
+    (box :class "bar-power" :orientation "v" :valign "end" :space-evenly false
+      (label :text "")  ; Power icon
+      (revealer :reveal bar_power_rev
+        :transition "slidedown" :duration "275ms"
+        (box :orientation "v" :valign "start" :space-evenly false
+          (button :class "bar-power-item"
+          :onclick "exec reboot" "Reboot")
+          (button :class "bar-power-item"
+          :onclick "exec shutdown now" "Power Off")
+          (button :class "bar-power-item"
+          :onclick "exec systemctl suspend" "Sleep"))))))
+
+
+
+(defwidget bar_end []
+  (box :class "bar-end" :orientation "v" :space-evenly false :valign "end"
+    (bar_host)
+    (bar_system)
+    (bar_time)
+    (bar_power)))
+
+;; # Windows
+
+(defwidget bar []
+  (box :class "bar" :orientation "v" :hexpand false :vexpand false
+    (bar_start)
+    (bar_end)))
+
+(defwindow bar
+  :geometry (geometry :x "5" :y "0"
+    :height "99%" :width "47px"
+  :anchor "center left")
+  :monitor 0
+  :stacking "bg" :namespace "bar" :exclusive true
+  :hexpand false :vexpand false
+  :windowtype "dock"
+  :wm-ignore false
+  :reserve (struts :distance "100px" :side "left")
+  (bar))
