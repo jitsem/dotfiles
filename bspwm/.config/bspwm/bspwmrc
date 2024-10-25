@@ -9,7 +9,7 @@
 "$HOME"/.config/eww/launch.sh &
 "$HOME"/.config/dunst/launch.sh &
 openrgb -p BlueThunder.orp &
-
+nm-applet --indicator &
 
 # Set the border colors.
 bspc config normal_border_color "$color1"
@@ -27,11 +27,11 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 bspc config focus_follows_pointer true
 
-bspc config single_monocle true
-bspc config left_monocle_padding 1000
-bspc config right_monocle_padding 1000
-bspc config top_monocle_padding 5
-bspc config bottom_monocle_padding 5
+#bspc config single_monocle true
+#bspc config left_monocle_padding 1000
+#bspc config right_monocle_padding 1000
+#bspc config top_monocle_padding 5
+#bspc config bottom_monocle_padding 5
 
 bspc rule -a firefox desktop='^2' follow=on
 bspc rule -a Pavucontrol state=floating rectangle=789x512+264+130

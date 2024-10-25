@@ -9,6 +9,7 @@
   color: $fg;
   border-radius: 14px;
   font-size: 16px;
+  padding: 0 0.5em;
 }
 
 .bar-workspaces {
@@ -32,8 +33,8 @@
 .bar-brightness label { font-size: 12px; margin: 0.5em 0.5em 0.5em 0.82em; }
 .bar-system circular-progress label { font-size: 10px; margin: 0.5em 0.5em 0.5em 1em; }
 
-.bar-slider trough { background-color: $bg0; border-radius: 14px; padding: 0 0.15em; }
-.bar-slider trough highlight { background-color: $fg; border-radius: 14px; padding: 0 0.2em; }
+.bar-slider trough { background-color: $bg0; border-radius: 12px; padding: 0 0.15em; }
+.bar-slider trough highlight { background-color: $fg; border-radius: 12px; padding: 0 0.2em; }
 
 .bar-cpu { color: $bar-cpu; }
 .bar-memory { color: $bar-memory; }
@@ -64,4 +65,17 @@
 
 .bar-start, .bar-end {
   margin: 1em 0 1em 0;
+}
+
+.tray menu {
+	padding: 5px 5px;
+	background-color: $bg1;
+separator {
+		background-color: $fg;
+		padding-top: 1px;
+
+		&:last-child {
+			padding: unset;
+		}
+	}
 }
