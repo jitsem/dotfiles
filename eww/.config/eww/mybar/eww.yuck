@@ -30,7 +30,7 @@
         (circular-progress :value volume :class "bar-host-info bar-volume"
           :thickness 4 :clockwise true
           (label :text "${volume_status == "0" ? "󰕾 " : "󰖁 " }" :limit-width 2
-          :show_truncated false :wrap false))
+          :show-truncated false :wrap false))
         (revealer :reveal bar_volume_rev
           :transition "slidedown" :duration "275ms"
           (box :orientation "v" :valign "start" :space-evenly false
@@ -50,7 +50,7 @@
         (circular-progress :value cpu :class "bar-system-info bar-cpu"
           :thickness 4 :clockwise true
           (label :text " " :limit-width 2
-          :show_truncated false :wrap false))
+          :show-truncated false :wrap false))
         (revealer :reveal bar_cpu_rev
           :transition "slidedown" :duration "275ms"
           (label :class "bar-info-percent" :text "${cpu}%"))))
@@ -60,7 +60,7 @@
         (circular-progress :value memory :class "bar-system-info bar-memory"
           :thickness 4 :clockwise true
           (label :text " " :limit-width 2
-          :show_truncated false :wrap false))
+          :show-truncated false :wrap false))
         (revealer :reveal bar_memory_rev
           :transition "slidedown" :duration "275ms"
           (label :class "bar-info-percent" :text "${memory}%"))))))
@@ -83,6 +83,12 @@
             (label :text month)
             (label :text day)))))))
 
+(defwidget systemtray []
+  (box :orientation "v" :halign "center"
+    (systray :class "tray" :orientation "v" :icon-size 25 :spacing 5)
+  )
+)
+
 (defvar bar_power_rev false)
 (defwidget bar_power []
   (eventbox :onhover "${EWW_CMD} update bar_power_rev=true"
@@ -93,11 +99,11 @@
         :transition "slidedown" :duration "275ms"
         (box :orientation "v" :valign "start" :space-evenly false
           (button :class "bar-power-item"
-          :onclick "exec reboot" "Reboot")
+          :onclick "exec systemctl reboot" "R")
           (button :class "bar-power-item"
-          :onclick "exec shutdown now" "Power Off")
+          :onclick "exec systemctl poweroff" "P")
           (button :class "bar-power-item"
-          :onclick "exec systemctl suspend" "Sleep"))))))
+          :onclick "exec systemctl suspend" "S"))))))
 
 
 
@@ -105,6 +111,7 @@
   (box :class "bar-end" :orientation "v" :space-evenly false :valign "end"
     (bar_host)
     (bar_system)
+    (systemtray)
     (bar_time)
     (bar_power)))
 
@@ -117,12 +124,12 @@
 
 (defwindow bar
   :geometry (geometry :x "5" :y "0"
-    :height "99%" :width "47px"
+    :height "99%" :width "25px"
   :anchor "center left")
   :monitor 0
   :stacking "bg" :namespace "bar" :exclusive true
   :hexpand false :vexpand false
   :windowtype "dock"
   :wm-ignore false
-  :reserve (struts :distance "100px" :side "left")
+  :reserve (struts :distance "80px" :side "left")
   (bar))

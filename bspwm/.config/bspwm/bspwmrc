@@ -10,7 +10,6 @@
 "$HOME"/.config/dunst/launch.sh &
 openrgb -p BlueThunder.orp &
 
-
 # Set the border colors.
 bspc config normal_border_color "$color1"
 bspc config active_border_color "$color2"
