@@ -25,6 +25,10 @@ super + F1
 # quit/restart bspwm
 super + alt + {q,r}
 	bspc {quit,wm -r}
+	
+# restart picom
+super + alt + k
+	"$HOME"/.config/picom/launch.sh
 
 # close and kill
 super + {_,shift + }w
