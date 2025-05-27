@@ -25,6 +25,12 @@ bspc config bottom_padding       0
 bspc config left_padding         0
 bspc config focused_border_color "#00000000"
 
+# Force 1440p window
+bspc config left_monocle_padding 1280
+bspc config right_monocle_padding 1280
+bspc config top_monocle_padding 5
+bspc config bottom_monocle_padding 5
+
 # Generate a black 5120x1440 image
 convert -size 5120x1440 xc:black /tmp/black.png
 
