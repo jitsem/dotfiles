@@ -2,16 +2,12 @@
 
 ;; ## Start
 
-(deflisten workspaces :initial "[]" "~/.config/eww/scripts/workspaces get-workspaces")
-(deflisten current_workspace :initial "1" "~/.config/eww/scripts/workspaces get-active")
+(defpoll workspaces :interval "500ms" "~/.config/eww/scripts/workspaces get-workspaces")
 (defwidget bar_workspaces []
-  (eventbox :onscroll "~/.config/eww/scripts/workspaces change-active {} ${current_workspace}"
     (box :class "bar-workspaces" :space-evenly true :orientation "v"
-      (label :text "${workspaces}${current_workspace}" :visible false)
       (for workspace in workspaces
-        (eventbox :onclick "~/.config/eww/scripts/workspaces set-active ${workspace.id}"
-          (box :class "bar-workspace ${workspace.id == current_workspace ? "current" : ""}"
-            (label :text "${workspace.text}")))))))
+          (box :class "bar-workspace ${workspace.is_focused ? "current" : ""}"
+            (label :text "${workspace.text}")))))
 
 (defwidget bar_start []
   (box :class "bar-start" :orientation "v" :space-evenly false :valign "start"

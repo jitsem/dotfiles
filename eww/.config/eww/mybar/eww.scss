@@ -8,7 +8,7 @@
   background-color: $bg0;
   color: $fg;
   border-radius: 14px;
-  font-size: 16px;
+  font-size: 20px;
   padding: 0 0.5em;
 }
 
@@ -16,10 +16,10 @@
   background-color: $bg1;
   border-radius: 14px;
   padding: 0.5em 0.25em;
-  font-size: 21px;
+  font-size: 16px;
   margin: 0 0.4em;
 }
-.bar-workspace { margin-right: 0.3em; margin-bottom: 0.8em; font-size: 16px;  }
+.bar-workspace { margin-right: 0.3em; margin-bottom: 0.8em; font-size: 18px;  }
 .bar-workspace.current { color: $accent; }
 
 .bar-host, .bar-system, .bar-power {
